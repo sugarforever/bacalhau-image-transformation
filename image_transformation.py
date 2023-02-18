@@ -18,14 +18,11 @@
 
 from __future__ import absolute_import, division, print_function
 
-from IPython.display import Image as IImage, display
 import numpy as np
-import PIL
 from PIL import Image
-import random
-import requests
 import tensorflow as tf
 import sys
+import os
 
 # Randomly flip an image.
 def random_flip_left_right(image):
@@ -97,41 +94,42 @@ def resize_image(image):
 
 # Download an image.
 
-original_image = sys.argv[1]
-transformed_image = sys.argv[2]
+input_image_dir = sys.argv[1]
+output_image_dir = sys.argv[2]
 
-# Load image to numpy array.
-img = PIL.Image.open(original_image)
-img.load()
-img_array = np.array(img)
+input_images = os.listdir(input_image_dir)
+for original_image in input_images:
+    # Load image to numpy array.
+    img = Image.open(original_image)
+    img.load()
+    img_array = np.array(img)
 
-# Display image.
-PIL.Image.fromarray(img_array)
+    # Display image.
+    Image.fromarray(img_array)
 
-# Display randomly flipped image.
-PIL.Image.fromarray(random_flip_left_right(img_array).numpy())
+    # Display randomly flipped image.
+    Image.fromarray(random_flip_left_right(img_array).numpy())
 
-# Display image with different contrast.
-PIL.Image.fromarray(random_contrast(img_array).numpy())
+    # Display image with different contrast.
+    Image.fromarray(random_contrast(img_array).numpy())
 
-# Display image with different brightness.
-PIL.Image.fromarray(random_brightness(img_array).numpy())
+    # Display image with different brightness.
+    Image.fromarray(random_brightness(img_array).numpy())
 
-# Display image with different staturation.
-PIL.Image.fromarray(random_saturation(img_array).numpy())
+    # Display image with different staturation.
+    Image.fromarray(random_saturation(img_array).numpy())
 
-# Display image with different hue.
-PIL.Image.fromarray(random_hue(img_array).numpy())
+    # Display image with different hue.
+    Image.fromarray(random_hue(img_array).numpy())
 
-# Display cropped image.
-PIL.Image.fromarray(distorted_random_crop(img_array).numpy())
+    # Display cropped image.
+    Image.fromarray(distorted_random_crop(img_array).numpy())
 
-# Display fully pre-processed image.
-transformed_img = transform_image(img_array).numpy()
-output_image = PIL.Image.fromarray(transformed_img)
+    # Display fully pre-processed image.
+    transformed_img = transform_image(img_array).numpy()
+    output_image = Image.fromarray(transformed_img)
 
-output_image.save(transformed_image)
+    output_image.save(output_image_dir + "/transformed_" + original_image)
 
 # Display resized image.
-# PIL.Image.fromarray(resize_image(transformed_img).numpy())
-
+# Image.fromarray(resize_image(transformed_img).numpy())
