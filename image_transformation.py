@@ -100,7 +100,7 @@ output_image_dir = sys.argv[2]
 input_images = os.listdir(input_image_dir)
 for original_image in input_images:
     # Load image to numpy array.
-    img = Image.open(original_image)
+    img = Image.open(input_image_dir + original_image)
     img.load()
     img_array = np.array(img)
 
